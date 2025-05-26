@@ -1,0 +1,2576 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for migrating from MySQL to PostgreSQL schema">
+      
+      
+      
+      
+        <link rel="prev" href="../address/">
+      
+      
+        <link rel="next" href="../social-media/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Contact Log - GMS Database Migration Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#contact-log-migration" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="GMS Database Migration Documentation" class="md-header__button md-logo" aria-label="GMS Database Migration Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GMS Database Migration Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Contact Log
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../migration-overview/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Migration Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../schema/table-mappings/" class="md-tabs__link">
+          
+  
+  
+  Schema Changes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../organization/" class="md-tabs__link">
+          
+  
+  
+  Table Details
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+  Installation & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/non-migrated-tables/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="GMS Database Migration Documentation" class="md-nav__button md-logo" aria-label="GMS Database Migration Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GMS Database Migration Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../migration-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Schema Changes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Schema Changes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/table-mappings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Table Mappings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/data-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Type Conversions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../schema/enums/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enum Mappings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Table Details
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Table Details
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../organization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../person/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Person
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../address/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Address
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contact.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contact
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Contact Log
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contact Log
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Improvements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Improvements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-modern-postgresql-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Modern PostgreSQL Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-enhanced-contact-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Enhanced Contact Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-contact-outcome-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Contact Outcome Tracking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-better-field-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Better Field Organization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Better Field Organization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-contact-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Contact Information
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-and-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content and Notes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-and-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata and Audit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-follow-up-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Follow-up Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-audit-trail-and-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Audit Trail and History
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-logic-and-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Logic and Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Logic and Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Transformation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Transformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-contact-type-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Contact Type Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-date-and-time-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Date and Time Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-foreign-key-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Foreign Key Resolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategic-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Strategic Indexing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Batch Processing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-mapping-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Field Mapping Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field Mapping Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-mysql-to-postgresql-field-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete MySQL to PostgreSQL Field Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-fields-postgresql-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Fields (PostgreSQL Only)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Queries
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#find-all-contacts-needing-follow-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Find All Contacts Needing Follow-up
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-summary-by-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Summary by Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#follow-up-success-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Follow-up Success Rate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Integrity Checks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Integrity Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-record-count-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Record Count Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-foreign-key-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Foreign Key Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-data-quality-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Data Quality Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-migration-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Migration Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Migration Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-missing-person-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Missing Person References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-invalid-date-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Invalid Date Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-contact-type-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Contact Type Mapping
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#large-dataset-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Large Dataset Migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../social-media/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Social Media
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Events
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../finance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Finance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../education/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Education
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../employment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Employment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../family/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Family
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../other-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Other Tables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation & Usage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Installation & Usage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Migration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/non-migrated-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Non-Migrated Tables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance Tuning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Improvements
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Improvements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-modern-postgresql-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Modern PostgreSQL Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-enhanced-contact-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Enhanced Contact Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-contact-outcome-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Contact Outcome Tracking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-better-field-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Better Field Organization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Better Field Organization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-contact-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Contact Information
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-and-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Content and Notes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-and-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata and Audit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-follow-up-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Follow-up Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-audit-trail-and-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Audit Trail and History
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-logic-and-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Logic and Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Logic and Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-transformation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Transformation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Transformation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-contact-type-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Contact Type Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-date-and-time-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Date and Time Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-foreign-key-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Foreign Key Resolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Performance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strategic-indexing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Strategic Indexing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Batch Processing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#field-mapping-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Field Mapping Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Field Mapping Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#complete-mysql-to-postgresql-field-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete MySQL to PostgreSQL Field Mapping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-fields-postgresql-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      New Fields (PostgreSQL Only)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Queries
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#find-all-contacts-needing-follow-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Find All Contacts Needing Follow-up
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-summary-by-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Summary by Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#follow-up-success-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Follow-up Success Rate
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Validation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#data-integrity-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Integrity Checks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Integrity Checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-record-count-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Record Count Verification
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-foreign-key-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Foreign Key Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-data-quality-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Data Quality Validation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-migration-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Migration Issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Migration Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-missing-person-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Missing Person References
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-invalid-date-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Invalid Date Values
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-contact-type-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Contact Type Mapping
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#large-dataset-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Large Dataset Migration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memory-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Memory Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="contact-log-migration">Contact Log Migration</h1>
+<p>The Contact Log migration represents one of the most significant enhancements in the PostgreSQL schema, transforming the basic MySQL <code>Contacted</code> table into a comprehensive contact tracking and follow-up management system.</p>
+<h2 id="overview">Overview</h2>
+<p>The new <code>contact_log</code> table includes substantial improvements over the original MySQL <code>Contacted</code> table, providing enhanced tracking capabilities, outcome management, and follow-up scheduling.</p>
+<h2 id="schema-improvements">Schema Improvements</h2>
+<h3 id="1-modern-postgresql-design">1. Modern PostgreSQL Design</h3>
+<p>The Contact Log table adopts modern PostgreSQL best practices:</p>
+<ul>
+<li><strong>UUID Primary Keys</strong>: Uses UUID instead of auto-incrementing integers for better distributed system support</li>
+<li><strong>Proper Foreign Keys</strong>: Enhanced relationships with cascading deletes and referential integrity</li>
+<li><strong>Type Safety</strong>: PostgreSQL ENUMs for contact types and outcomes instead of magic numbers</li>
+<li><strong>Timezone Support</strong>: Proper timestamp handling with timezone awareness</li>
+</ul>
+<h3 id="2-enhanced-contact-types">2. Enhanced Contact Types</h3>
+<p>The migration replaces the generic integer <code>ctype</code> field with a descriptive <code>contact_type_enum</code> that supports:</p>
+<table>
+<thead>
+<tr>
+<th>Contact Type</th>
+<th>Description</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phone Call</td>
+<td>Voice communication</td>
+<td>Direct conversations, follow-ups</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>Electronic mail</td>
+<td>Documentation, formal communication</td>
+</tr>
+<tr>
+<td>Letter</td>
+<td>Physical mail</td>
+<td>Official correspondence</td>
+</tr>
+<tr>
+<td>In-Person Meeting</td>
+<td>Face-to-face interaction</td>
+<td>Important discussions, events</td>
+</tr>
+<tr>
+<td>Text Message</td>
+<td>SMS communication</td>
+<td>Quick updates, reminders</td>
+</tr>
+<tr>
+<td>Social Media</td>
+<td>Social platform interaction</td>
+<td>Informal engagement</td>
+</tr>
+<tr>
+<td>Video Call</td>
+<td>Virtual meeting</td>
+<td>Remote meetings, interviews</td>
+</tr>
+<tr>
+<td>Voicemail</td>
+<td>Voice message</td>
+<td>When direct contact unavailable</td>
+</tr>
+<tr>
+<td>Event Contact</td>
+<td>Contact at events</td>
+<td>Networking, social functions</td>
+</tr>
+<tr>
+<td>Newsletter</td>
+<td>Newsletter communication</td>
+<td>Regular updates, campaigns</td>
+</tr>
+<tr>
+<td>Donation Thank You</td>
+<td>Appreciation communication</td>
+<td>Donor stewardship</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>Miscellaneous contact</td>
+<td>Custom or unique situations</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-contact-outcome-tracking">3. Contact Outcome Tracking</h3>
+<p>A major enhancement is the addition of <code>contact_outcome_enum</code> to track interaction results:</p>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Description</th>
+<th>Next Steps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Successful</td>
+<td>Contact achieved intended goal</td>
+<td>Document results, schedule follow-up if needed</td>
+</tr>
+<tr>
+<td>No Answer</td>
+<td>Contact attempt failed - no response</td>
+<td>Schedule callback, try alternative method</td>
+</tr>
+<tr>
+<td>Busy</td>
+<td>Contact unavailable at time of call</td>
+<td>Reschedule for later</td>
+</tr>
+<tr>
+<td>Invalid Contact Info</td>
+<td>Contact information incorrect/outdated</td>
+<td>Update contact information</td>
+</tr>
+<tr>
+<td>Declined</td>
+<td>Contact declined to engage</td>
+<td>Respect preference, update records</td>
+</tr>
+<tr>
+<td>Callback Requested</td>
+<td>Contact requested to be called back</td>
+<td>Schedule callback at requested time</td>
+</tr>
+<tr>
+<td>Follow-up Needed</td>
+<td>Additional contact required</td>
+<td>Schedule appropriate follow-up</td>
+</tr>
+<tr>
+<td>Completed</td>
+<td>Interaction fully completed</td>
+<td>Archive, no further action needed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-better-field-organization">4. Better Field Organization</h3>
+<p>The new schema provides more structured and flexible data organization:</p>
+<h4 id="core-contact-information">Core Contact Information</h4>
+<ul>
+<li><strong><code>contact_date</code></strong> (required): The date the contact occurred</li>
+<li><strong><code>contact_time</code></strong> (optional): Specific time with timezone support</li>
+<li><strong><code>contact_type</code></strong> (enum): Type of contact method used</li>
+<li><strong><code>contact_outcome</code></strong> (enum): Result of the contact attempt</li>
+</ul>
+<h4 id="content-and-notes">Content and Notes</h4>
+<ul>
+<li><strong><code>quick_note</code></strong> (255 chars): Brief summary for quick reference</li>
+<li><strong><code>detailed_comments</code></strong> (text): Comprehensive notes and details</li>
+<li><strong><code>is_restricted</code></strong> (boolean): Privacy flag for sensitive information</li>
+</ul>
+<h4 id="metadata-and-audit">Metadata and Audit</h4>
+<ul>
+<li><strong><code>entered_by</code></strong> (varchar): Who recorded this contact</li>
+<li><strong><code>created_at</code></strong> / <strong><code>updated_at</code></strong>: Automatic timestamp tracking</li>
+</ul>
+<h3 id="5-follow-up-management">5. Follow-up Management</h3>
+<p>One of the most significant enhancements is the built-in follow-up management system:</p>
+<ul>
+<li><strong><code>follow_up_needed</code></strong> (boolean): Flag indicating if follow-up is required</li>
+<li><strong><code>follow_up_date</code></strong> (date): When follow-up should occur</li>
+<li><strong><code>duration_minutes</code></strong> (integer): Length of calls/meetings for time tracking</li>
+</ul>
+<p>This allows for:</p>
+<ul>
+<li>Systematic follow-up scheduling</li>
+<li>Workload planning and time management</li>
+<li>Performance metrics and reporting</li>
+<li>Automated reminder systems</li>
+</ul>
+<h3 id="6-audit-trail-and-history">6. Audit Trail and History</h3>
+<p>The enhanced audit capabilities include:</p>
+<ul>
+<li><strong>Automatic Timestamps</strong>: <code>created_at</code> and <code>updated_at</code> with automatic updates</li>
+<li><strong>Change Tracking</strong>: Integration with history logging systems</li>
+<li><strong>User Attribution</strong>: Track who entered or modified each record</li>
+<li><strong>Compliance Support</strong>: Maintain comprehensive interaction history</li>
+</ul>
+<h2 id="migration-logic-and-process">Migration Logic and Process</h2>
+<h3 id="data-transformation">Data Transformation</h3>
+<p>The migration process handles several complex transformations:</p>
+<h4 id="1-contact-type-mapping">1. Contact Type Mapping</h4>
+<p>MySQL integer <code>ctype</code> values are mapped to PostgreSQL enum values:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- Example mapping logic</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">CASE</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">ctype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Phone Call&#39;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">ctype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Email&#39;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">ctype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Letter&#39;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">ctype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;In-Person Meeting&#39;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">-- ... additional mappings</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">END</span>
+</code></pre></div>
+<h4 id="2-date-and-time-handling">2. Date and Time Handling</h4>
+<p>The migration includes robust date handling:</p>
+<ul>
+<li><strong>Null Date Management</strong>: Converts MySQL null/invalid dates to appropriate defaults</li>
+<li><strong>Timezone Conversion</strong>: Properly handles timezone information</li>
+<li><strong>Date Validation</strong>: Ensures all dates are valid and reasonable</li>
+</ul>
+<h4 id="3-foreign-key-resolution">3. Foreign Key Resolution</h4>
+<p>Critical ID mapping from MySQL to PostgreSQL:</p>
+<ul>
+<li><strong>Person Mapping</strong>: Converts MySQL <code>donor_id</code> to PostgreSQL <code>person_id</code> using the person mapping table</li>
+<li><strong>Orphan Handling</strong>: Skips records with missing person references</li>
+<li><strong>Validation</strong>: Ensures all foreign key relationships are valid</li>
+</ul>
+<h3 id="migration-performance">Migration Performance</h3>
+<p>The Contact Log migration includes several performance optimizations:</p>
+<h4 id="strategic-indexing">Strategic Indexing</h4>
+<p>The table includes optimized indexes for common query patterns:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">-- Primary access patterns</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_log_person_id</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">person_id</span><span class="p">);</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_log_contact_date</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">contact_date</span><span class="p">);</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_log_contact_type</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">contact_type</span><span class="p">);</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">-- Follow-up management</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_log_follow_up</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">follow_up_needed</span><span class="p">,</span><span class="w"> </span><span class="n">follow_up_date</span><span class="p">);</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">-- Audit and reporting</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_log_created_at</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">created_at</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_log_entered_by</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">entered_by</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="batch-processing">Batch Processing</h4>
+<ul>
+<li>Configurable batch sizes for memory optimization</li>
+<li>Progress tracking with detailed logging</li>
+<li>Error handling with checkpoint recovery</li>
+</ul>
+<h2 id="field-mapping-reference">Field Mapping Reference</h2>
+<h3 id="complete-mysql-to-postgresql-field-mapping">Complete MySQL to PostgreSQL Field Mapping</h3>
+<table>
+<thead>
+<tr>
+<th>MySQL Field</th>
+<th>PostgreSQL Field</th>
+<th>Type Change</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contact_id</code></td>
+<td><code>id</code></td>
+<td>INT AUTO_INCREMENT → UUID</td>
+<td>Primary key modernization</td>
+</tr>
+<tr>
+<td><code>donor_id</code></td>
+<td><code>person_id</code></td>
+<td>INT → UUID</td>
+<td>Foreign key with mapping resolution</td>
+</tr>
+<tr>
+<td><code>date_contacted</code></td>
+<td><code>contact_date</code></td>
+<td>DATE → DATE</td>
+<td>Null handling and validation</td>
+</tr>
+<tr>
+<td><code>restricted</code></td>
+<td><code>is_restricted</code></td>
+<td>TINYINT(1) → BOOLEAN</td>
+<td>Native boolean type</td>
+</tr>
+<tr>
+<td><code>ctype</code></td>
+<td><code>contact_type</code></td>
+<td>INT → ENUM</td>
+<td>Type-safe enumeration</td>
+</tr>
+<tr>
+<td><code>enteredBy</code></td>
+<td><code>entered_by</code></td>
+<td>CHAR(3) → VARCHAR(45)</td>
+<td>Expanded field size</td>
+</tr>
+<tr>
+<td><code>qnote</code></td>
+<td><code>quick_note</code></td>
+<td>VARCHAR(255) → VARCHAR(255)</td>
+<td>No change</td>
+</tr>
+<tr>
+<td><code>comments</code></td>
+<td><code>detailed_comments</code></td>
+<td>TEXT → TEXT</td>
+<td>No change</td>
+</tr>
+<tr>
+<td><code>lastupdated</code></td>
+<td><code>created_at</code>, <code>updated_at</code></td>
+<td>TIMESTAMP → TIMESTAMPTZ</td>
+<td>Timezone support, separate fields</td>
+</tr>
+</tbody>
+</table>
+<h3 id="new-fields-postgresql-only">New Fields (PostgreSQL Only)</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contact_time</code></td>
+<td>TIME WITH TIME ZONE</td>
+<td>Specific time of contact</td>
+</tr>
+<tr>
+<td><code>contact_outcome</code></td>
+<td>ENUM</td>
+<td>Track interaction results</td>
+</tr>
+<tr>
+<td><code>follow_up_needed</code></td>
+<td>BOOLEAN</td>
+<td>Flag for required follow-up</td>
+</tr>
+<tr>
+<td><code>follow_up_date</code></td>
+<td>DATE</td>
+<td>Scheduled follow-up date</td>
+</tr>
+<tr>
+<td><code>duration_minutes</code></td>
+<td>INTEGER</td>
+<td>Contact duration tracking</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage-examples">Usage Examples</h2>
+<h3 id="common-queries">Common Queries</h3>
+<h4 id="find-all-contacts-needing-follow-up">Find All Contacts Needing Follow-up</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">cl</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">p</span><span class="p">.</span><span class="n">first_name</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">p</span><span class="p">.</span><span class="n">last_name</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">cl</span><span class="p">.</span><span class="n">contact_date</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">cl</span><span class="p">.</span><span class="n">follow_up_date</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">cl</span><span class="p">.</span><span class="n">quick_note</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span><span class="w"> </span><span class="n">cl</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cl</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">cl</span><span class="p">.</span><span class="n">follow_up_needed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="k">AND</span><span class="w"> </span><span class="n">cl</span><span class="p">.</span><span class="n">follow_up_date</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="k">CURRENT_DATE</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">cl</span><span class="p">.</span><span class="n">follow_up_date</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="contact-summary-by-type">Contact Summary by Type</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">contact_type</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_contacts</span><span class="p">,</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">contact_outcome</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Successful&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">successful_contacts</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">contact_date</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">contact_type</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">total_contacts</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="follow-up-success-rate">Follow-up Success Rate</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SELECT</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">DATE_TRUNC</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">contact_date</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">month</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">total_contacts</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">follow_up_needed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">completed_contacts</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">ROUND</span><span class="p">(</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">follow_up_needed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">),</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="mi">2</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">completion_rate</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">DATE_TRUNC</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">contact_date</span><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">month</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="migration-validation">Migration Validation</h2>
+<h3 id="data-integrity-checks">Data Integrity Checks</h3>
+<p>After migration, validate the data integrity:</p>
+<h4 id="1-record-count-verification">1. Record Count Verification</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">-- Compare record counts</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;MySQL&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">source</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">mysql_contacted</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;PostgreSQL&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">source</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="2-foreign-key-validation">2. Foreign Key Validation</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">-- Check for orphaned records</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">orphaned_contacts</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span><span class="w"> </span><span class="n">cl</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">cl</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="3-data-quality-validation">3. Data Quality Validation</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">-- Check for data quality issues</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">SELECT</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">contact_date</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">null_dates</span><span class="p">,</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">contact_type</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">null_types</span><span class="p">,</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">person_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">null_person_ids</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-migration-issues">Common Migration Issues</h3>
+<h4 id="1-missing-person-references">1. Missing Person References</h4>
+<p><strong>Problem</strong>: Contact records reference non-existent persons
+<strong>Solution</strong>: The migration automatically skips orphaned records and logs them</p>
+<h4 id="2-invalid-date-values">2. Invalid Date Values</h4>
+<p><strong>Problem</strong>: MySQL contains invalid dates (e.g., '0000-00-00')
+<strong>Solution</strong>: The migration converts invalid dates to NULL or current date based on context</p>
+<h4 id="3-contact-type-mapping">3. Contact Type Mapping</h4>
+<p><strong>Problem</strong>: Unknown contact type values in MySQL
+<strong>Solution</strong>: Unmapped values are assigned to 'Other' type with logging</p>
+<h3 id="performance-considerations">Performance Considerations</h3>
+<h4 id="large-dataset-migration">Large Dataset Migration</h4>
+<p>For organizations with extensive contact histories:</p>
+<ol>
+<li><strong>Increase Batch Size</strong>: For systems with ample memory</li>
+<li><strong>Monitor Progress</strong>: Use the built-in progress tracking</li>
+<li><strong>Schedule Downtime</strong>: Plan for extended migration time</li>
+<li><strong>Index Creation</strong>: Indexes are created after data migration for optimal performance</li>
+</ol>
+<h4 id="memory-usage">Memory Usage</h4>
+<p>The migration is optimized for memory efficiency:</p>
+<ul>
+<li>Batch processing prevents memory overflow</li>
+<li>Streaming results instead of loading entire datasets</li>
+<li>Configurable batch sizes based on system capabilities</li>
+</ul>
+<hr />
+<p><em>The Contact Log migration represents a significant upgrade in contact management capabilities, providing enhanced tracking, follow-up management, and reporting features while maintaining full compatibility with existing data.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://hub.docker.com/" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

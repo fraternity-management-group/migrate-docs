@@ -1,0 +1,2443 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for migrating from MySQL to PostgreSQL schema">
+      
+      
+      
+      
+        <link rel="prev" href="../data-types/">
+      
+      
+        <link rel="next" href="../../tables/organization/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Enum Mappings - GMS Database Migration Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-enums" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="GMS Database Migration Documentation" class="md-header__button md-logo" aria-label="GMS Database Migration Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GMS Database Migration Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Enum Mappings
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../migration-overview/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Migration Overview
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../table-mappings/" class="md-tabs__link">
+          
+  
+  
+  Schema Changes
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tables/organization/" class="md-tabs__link">
+          
+  
+  
+  Table Details
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+  Installation & Usage
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/non-migrated-tables/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="GMS Database Migration Documentation" class="md-nav__button md-logo" aria-label="GMS Database Migration Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    GMS Database Migration Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../migration-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Migration Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Schema Changes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Schema Changes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../table-mappings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Table Mappings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Type Conversions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Enum Mappings
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enum Mappings
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#person-and-status-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Person and Status Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Person and Status Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#person-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Person Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#person-code-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Person Code Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marital-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Marital Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#organization-and-date-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Organization and Date Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Organization and Date Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#year-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Year Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#address-and-location-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address and Location Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Address and Location Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#address-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geocode-accuracy-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geocode Accuracy Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact-information-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Information Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contact Information Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#email-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Email Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phone-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phone Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-preference-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communication Preference Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Communication Preference Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contact-method-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Method Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-frequency-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Frequency Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-time-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Time Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#employment-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Employment Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Employment Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#employment-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Employment Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-arrangement-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Work Arrangement Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact-log-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Log Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contact Log Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contact-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-outcome-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Outcome Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-usage-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Usage Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Usage Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Index Performance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-mapping-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Mapping Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Mapping Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generic-enum-conversion-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Enum Conversion Function
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specific-mapping-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specific Mapping Functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Usage Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-queries-for-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Queries for Migration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Table Details
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Table Details
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/organization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/person/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Person
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/address/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Address
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/contact.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contact
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/contact-log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contact Log
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/social-media/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Social Media
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/events/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Events
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/finance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Finance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/education/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Education
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/employment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Employment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/family/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Family
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tables/other-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Other Tables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation & Usage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Installation & Usage
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Migration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/non-migrated-tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Non-Migrated Tables
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Performance Tuning
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#person-and-status-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Person and Status Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Person and Status Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#person-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Person Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#person-code-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Person Code Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marital-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Marital Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#organization-and-date-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Organization and Date Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Organization and Date Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#year-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Year Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#address-and-location-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address and Location Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Address and Location Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#address-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geocode-accuracy-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Geocode Accuracy Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact-information-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Information Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contact Information Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#email-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Email Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phone-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phone Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#communication-preference-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Communication Preference Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Communication Preference Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contact-method-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Method Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-frequency-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Frequency Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-time-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Time Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#employment-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Employment Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Employment Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#employment-status-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Employment Status Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#work-arrangement-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Work Arrangement Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact-log-enums" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Log Enums
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contact Log Enums">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contact-type-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Type Enum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contact-outcome-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contact Outcome Enum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#database-usage-guidelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Database Usage Guidelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Database Usage Guidelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#query-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Query Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#index-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Index Performance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migration-mapping-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Mapping Functions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Migration Mapping Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generic-enum-conversion-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generic Enum Conversion Function
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specific-mapping-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Specific Mapping Functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migration-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migration Usage Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-queries-for-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Queries for Migration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="database-enums">Database Enums</h1>
+<h2 id="overview">Overview</h2>
+<p>This document provides a complete reference of all enum types defined in the GMS database schema. Enums ensure data consistency, improve query performance, and provide better validation compared to free-text fields.</p>
+<h2 id="person-and-status-enums">Person and Status Enums</h2>
+<h3 id="person-status-enum">Person Status Enum</h3>
+<p>Tracks the current status of a person in the system.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">person_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Active&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;In-active&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Lost&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Deceased&#39;</span><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Active</code> - Person is currently active in the organization
+- <code>In-active</code> - Person is temporarily inactive
+- <code>Lost</code> - Lost contact with the person
+- <code>Deceased</code> - Person is deceased</p>
+<p><strong>MySQL to PostgreSQL Mapping:</strong>
+| MySQL Value | PostgreSQL Enum | Description |
+|-------------|-----------------|-------------|
+| 'A' | 'Active' | Active member |
+| 'I' | 'In-active' | Inactive member |
+| 'L' | 'Lost' | Lost contact |
+| 'D' | 'Deceased' | Deceased member |</p>
+<h3 id="person-code-enum">Person Code Enum</h3>
+<p>Categorizes the person's relationship to the organization.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">person_code_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Alumni&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Undergrad&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Parent&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Friend&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Alumni/Parent&#39;</span><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Alumni</code> - Graduate/former member
+- <code>Undergrad</code> - Current undergraduate member
+- <code>Parent</code> - Parent of a member
+- <code>Friend</code> - Friend of the organization
+- <code>Alumni/Parent</code> - Person who is both alumni and parent</p>
+<p><strong>MySQL to PostgreSQL Mapping:</strong>
+| MySQL Value | PostgreSQL Enum | Description |
+|-------------|-----------------|-------------|
+| 'A' | 'Alumni' | Alumni/graduate member |
+| 'U' | 'Undergrad' | Undergraduate member |
+| 'P' | 'Parent' | Parent of member |
+| 'F' | 'Friend' | Friend of organization |
+| 'X' | 'Alumni/Parent' | Alumni who is also a parent |</p>
+<h3 id="marital-status-enum">Marital Status Enum</h3>
+<p>Tracks marital status of individuals.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">marital_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Single&#39;</span><span class="p">,</span><span class="s1">&#39;Married&#39;</span><span class="p">,</span><span class="s1">&#39;Widowed&#39;</span><span class="p">,</span><span class="s1">&#39;Divorced&#39;</span><span class="p">,</span><span class="s1">&#39;Unknown&#39;</span><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Single</code> - Not married
+- <code>Married</code> - Currently married
+- <code>Widowed</code> - Spouse is deceased
+- <code>Divorced</code> - Previously married, now divorced
+- <code>Unknown</code> - Marital status unknown</p>
+<p><strong>MySQL to PostgreSQL Mapping:</strong>
+| MySQL Value | PostgreSQL Enum | Description |
+|-------------|-----------------|-------------|
+| 'S' | 'Single' | Single/unmarried |
+| 'M' | 'Married' | Currently married |
+| 'W' | 'Widowed' | Widowed |
+| 'D' | 'Divorced' | Divorced |
+| '?' | 'Unknown' | Unknown marital status |</p>
+<h2 id="organization-and-date-enums">Organization and Date Enums</h2>
+<h3 id="year-type-enum">Year Type Enum</h3>
+<p>Defines what type of year is being referenced for the organization.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">year_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Initiation&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Graduation&#39;</span><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Initiation</code> - Year refers to initiation date
+- <code>Graduation</code> - Year refers to graduation date</p>
+<h2 id="address-and-location-enums">Address and Location Enums</h2>
+<h3 id="address-type-enum">Address Type Enum</h3>
+<p>Categorizes different types of addresses.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">address_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="s1">&#39;Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Business&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Mailing&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Billing&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Shipping&#39;</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="s1">&#39;Summer Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Winter Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Previous&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Home</code> - Primary residence
+- <code>Business</code> - Work/business address
+- <code>Mailing</code> - Preferred mailing address
+- <code>Billing</code> - Billing address for financial transactions
+- <code>Shipping</code> - Address for shipping items
+- <code>Summer Home</code> - Seasonal summer residence
+- <code>Winter Home</code> - Seasonal winter residence
+- <code>Previous</code> - Former address
+- <code>Other</code> - Other address type</p>
+<p><strong>MySQL to PostgreSQL Mapping:</strong>
+| MySQL Value | PostgreSQL Enum | Description |
+|-------------|-----------------|-------------|
+| 'Home' | 'Home' | Primary residence |
+| 'Business' | 'Business' | Work/business address |
+| 'Summer Home' | 'Summer Home' | Seasonal summer residence |
+| 'Winter Home' | 'Winter Home' | Seasonal winter residence |
+| 'Other' | 'Other' | Other address type |
+| Any unmapped value | 'Mailing' | Default for new address types |</p>
+<h3 id="geocode-accuracy-enum">Geocode Accuracy Enum</h3>
+<p>Indicates the accuracy level of geocoded addresses.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">geocode_accuracy_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="s1">&#39;ROOFTOP&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;RANGE_INTERPOLATED&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;GEOMETRIC_CENTER&#39;</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="s1">&#39;APPROXIMATE&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;UNKNOWN&#39;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>ROOFTOP</code> - Exact building location
+- <code>RANGE_INTERPOLATED</code> - Interpolated from address range
+- <code>GEOMETRIC_CENTER</code> - Center of geographic area
+- <code>APPROXIMATE</code> - Approximate location
+- <code>UNKNOWN</code> - Accuracy unknown</p>
+<h3 id="validation-status-enum">Validation Status Enum</h3>
+<p>Tracks validation status of addresses and contact information.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">validation_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="s1">&#39;VERIFIED&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;UNVERIFIED&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;INVALID&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;PENDING&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;FAILED&#39;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>VERIFIED</code> - Information has been verified as correct
+- <code>UNVERIFIED</code> - Information has not been verified
+- <code>INVALID</code> - Information is known to be invalid
+- <code>PENDING</code> - Verification is in progress
+- <code>FAILED</code> - Verification attempt failed</p>
+<h2 id="contact-information-enums">Contact Information Enums</h2>
+<h3 id="email-type-enum">Email Type Enum</h3>
+<p>Categorizes email addresses by their purpose.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">email_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="s1">&#39;Personal&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Work&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Alumni&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;School&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Personal</code> - Personal email address
+- <code>Work</code> - Work/business email address
+- <code>Alumni</code> - Alumni-specific email address
+- <code>School</code> - School-provided email address
+- <code>Other</code> - Other email type</p>
+<h3 id="phone-type-enum">Phone Type Enum</h3>
+<p>Categorizes phone numbers by their purpose.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">phone_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="s1">&#39;Mobile&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Work&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Fax&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Emergency&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Mobile</code> - Mobile/cell phone
+- <code>Home</code> - Home phone number
+- <code>Work</code> - Work phone number
+- <code>Fax</code> - Fax number
+- <code>Emergency</code> - Emergency contact number
+- <code>Other</code> - Other phone type</p>
+<p><strong>MySQL to PostgreSQL Mapping:</strong>
+| MySQL Value | PostgreSQL Enum | Description |
+|-------------|-----------------|-------------|
+| 'Cell' | 'Mobile' | Mobile/cell phone |
+| 'Home' | 'Home' | Home phone number |
+| 'Work' | 'Work' | Work phone number |
+| 'Fax' | 'Fax' | Fax number |
+| 'Other' | 'Other' | Other phone type |
+| Any unmapped value | 'Other' | Default for unknown types |</p>
+<h2 id="communication-preference-enums">Communication Preference Enums</h2>
+<h3 id="contact-method-enum">Contact Method Enum</h3>
+<p>Defines preferred methods of contact.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">contact_method_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="s1">&#39;Email&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Phone&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Text&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Mail&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Social Media&#39;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Email</code> - Contact via email
+- <code>Phone</code> - Contact via phone call
+- <code>Text</code> - Contact via text message
+- <code>Mail</code> - Contact via postal mail
+- <code>Social Media</code> - Contact via social media platforms</p>
+<h3 id="contact-frequency-enum">Contact Frequency Enum</h3>
+<p>Defines how often contact should occur.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">contact_frequency_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="s1">&#39;Daily&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Weekly&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Monthly&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Quarterly&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Annually&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Never&#39;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Daily</code> - Daily contact preferred
+- <code>Weekly</code> - Weekly contact preferred
+- <code>Monthly</code> - Monthly contact preferred
+- <code>Quarterly</code> - Quarterly contact preferred
+- <code>Annually</code> - Annual contact preferred
+- <code>Never</code> - No contact preferred</p>
+<p><strong>MySQL to PostgreSQL Mapping:</strong>
+| MySQL Value | PostgreSQL Enum | Description |
+|-------------|-----------------|-------------|
+| 'Daily' | 'Daily' | Daily contact preferred |
+| 'Weekly' | 'Weekly' | Weekly contact preferred |
+| 'Monthly' | 'Monthly' | Monthly contact preferred |
+| 'Annually' | 'Annually' | Annual contact preferred |
+| Any unmapped value | 'Monthly' | Default frequency |</p>
+<h3 id="contact-time-enum">Contact Time Enum</h3>
+<p>Defines preferred times for contact.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">contact_time_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="s1">&#39;Morning&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Afternoon&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Evening&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Weekends&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Anytime&#39;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Morning</code> - Prefer morning contact
+- <code>Afternoon</code> - Prefer afternoon contact
+- <code>Evening</code> - Prefer evening contact
+- <code>Weekends</code> - Prefer weekend contact
+- <code>Anytime</code> - No time preference</p>
+<h2 id="employment-enums">Employment Enums</h2>
+<h3 id="employment-status-enum">Employment Status Enum</h3>
+<p>Categorizes employment status.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">employment_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="s1">&#39;Full-time&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Part-time&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Contract&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Consulting&#39;</span><span class="p">,</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="s1">&#39;Retired&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Self-employed&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Unemployed&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Student&#39;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Full-time</code> - Full-time employee
+- <code>Part-time</code> - Part-time employee
+- <code>Contract</code> - Contract worker
+- <code>Consulting</code> - Independent consultant
+- <code>Retired</code> - Retired from work
+- <code>Self-employed</code> - Self-employed/business owner
+- <code>Unemployed</code> - Currently unemployed
+- <code>Student</code> - Full-time student</p>
+<h3 id="work-arrangement-enum">Work Arrangement Enum</h3>
+<p>Defines work arrangement types.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">work_arrangement_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="s1">&#39;On-site&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Remote&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Hybrid&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Travel&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Field-based&#39;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>On-site</code> - Works at employer's location
+- <code>Remote</code> - Works remotely/from home
+- <code>Hybrid</code> - Mix of on-site and remote work
+- <code>Travel</code> - Work involves significant travel
+- <code>Field-based</code> - Work is primarily field-based</p>
+<h2 id="contact-log-enums">Contact Log Enums</h2>
+<h3 id="contact-type-enum">Contact Type Enum</h3>
+<p>Categorizes types of contact interactions.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">contact_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="s1">&#39;Phone Call&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Email&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Letter&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;In-Person Meeting&#39;</span><span class="p">,</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="s1">&#39;Text Message&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Social Media&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Video Call&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Voicemail&#39;</span><span class="p">,</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="s1">&#39;Event Contact&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Newsletter&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Donation Thank You&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Phone Call</code> - Contact via phone call
+- <code>Email</code> - Contact via email
+- <code>Letter</code> - Contact via postal letter
+- <code>In-Person Meeting</code> - Face-to-face meeting
+- <code>Text Message</code> - Contact via text/SMS
+- <code>Social Media</code> - Contact via social media
+- <code>Video Call</code> - Contact via video call
+- <code>Voicemail</code> - Left voicemail message
+- <code>Event Contact</code> - Contact at an event
+- <code>Newsletter</code> - Newsletter communication
+- <code>Donation Thank You</code> - Thank you for donation
+- <code>Other</code> - Other type of contact</p>
+<h3 id="contact-outcome-enum">Contact Outcome Enum</h3>
+<p>Tracks the outcome of contact attempts.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">contact_outcome_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="s1">&#39;Successful&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;No Answer&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Busy&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Invalid Contact Info&#39;</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="s1">&#39;Declined&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Callback Requested&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Follow-up Needed&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Completed&#39;</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">);</span>
+</code></pre></div></p>
+<p><strong>Values:</strong>
+- <code>Successful</code> - Contact was successful
+- <code>No Answer</code> - No answer received
+- <code>Busy</code> - Contact was busy/unavailable
+- <code>Invalid Contact Info</code> - Contact information is invalid
+- <code>Declined</code> - Contact declined to engage
+- <code>Callback Requested</code> - Contact requested callback
+- <code>Follow-up Needed</code> - Follow-up action required
+- <code>Completed</code> - Contact interaction completed</p>
+<h2 id="database-usage-guidelines">Database Usage Guidelines</h2>
+<h3 id="best-practices">Best Practices</h3>
+<ol>
+<li><strong>Always use enum values exactly as defined</strong> - Enums are case-sensitive</li>
+<li><strong>Handle enum values in application code</strong> - Don't rely on database for enum validation alone</li>
+<li><strong>Plan for enum expansion</strong> - Consider future values when designing application logic</li>
+<li><strong>Use descriptive enum values</strong> - Values should be self-documenting</li>
+</ol>
+<h3 id="query-examples">Query Examples</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1">-- Filter by person status</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Active&#39;</span><span class="p">;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1">-- Group by contact method preference</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">contact_method</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_preferences</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">contact_method</span><span class="p">;</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="c1">-- Find people by marital status</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">full_name</span><span class="p">,</span><span class="w"> </span><span class="n">marital_status</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="k">FROM</span><span class="w"> </span><span class="n">person</span>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">marital_status</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Married&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Single&#39;</span><span class="p">);</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="c1">-- Contact log summary by type</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">contact_type</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">contact_count</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="k">FROM</span><span class="w"> </span><span class="n">contact_log</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">contact_type</span>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">contact_count</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="index-performance">Index Performance</h3>
+<p>Enums provide excellent index performance and are stored efficiently:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">-- Efficient indexes on enum columns</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_person_status</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">person</span><span class="p">(</span><span class="n">status</span><span class="p">);</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_contact_type</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">contact_log</span><span class="p">(</span><span class="n">contact_type</span><span class="p">);</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_address_type</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">address</span><span class="p">(</span><span class="n">address_type</span><span class="p">);</span>
+</code></pre></div>
+<p>This enum system ensures data consistency, improves query performance, and provides clear data validation throughout the GMS database.</p>
+<h2 id="migration-mapping-functions">Migration Mapping Functions</h2>
+<p>The following functions help convert MySQL enum values to PostgreSQL enum values during migration:</p>
+<h3 id="generic-enum-conversion-function">Generic Enum Conversion Function</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1">-- Generic enum conversion function with fallback</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">convert_mysql_enum</span><span class="p">(</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="n">input_value</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="n">mapping</span><span class="w"> </span><span class="n">JSONB</span><span class="p">,</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="n">default_value</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="nb">TEXT</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="k">DECLARE</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="k">result</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">;</span>
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="k">BEGIN</span>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="c1">-- Handle NULL or empty input</span>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="n">input_value</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">TRIM</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="k">THEN</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">        </span><span class="k">RETURN</span><span class="w"> </span><span class="n">default_value</span><span class="p">;</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>
+<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">    </span><span class="c1">-- Try direct mapping first</span>
+<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="w">    </span><span class="k">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">mapping</span><span class="o">-&gt;&gt;</span><span class="n">input_value</span><span class="p">;</span>
+<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a>
+<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="w">    </span><span class="c1">-- If no mapping found, return default</span>
+<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">THEN</span>
+<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="w">        </span><span class="k">result</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">default_value</span><span class="p">;</span>
+<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a>
+<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">result</span><span class="p">;</span>
+<a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="specific-mapping-functions">Specific Mapping Functions</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1">-- Person status mapping</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">map_person_status</span><span class="p">(</span><span class="n">mysql_status</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">person_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="k">BEGIN</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">mysql_status</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Active&#39;</span><span class="p">::</span><span class="n">person_status_enum</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;I&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;In-active&#39;</span><span class="p">::</span><span class="n">person_status_enum</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;L&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Lost&#39;</span><span class="p">::</span><span class="n">person_status_enum</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;D&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Deceased&#39;</span><span class="p">::</span><span class="n">person_status_enum</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Active&#39;</span><span class="p">::</span><span class="n">person_status_enum</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+<a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="c1">-- Person code mapping</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">map_person_code</span><span class="p">(</span><span class="n">mysql_code</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">person_code_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="k">BEGIN</span>
+<a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">mysql_code</span>
+<a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;A&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Alumni&#39;</span><span class="p">::</span><span class="n">person_code_enum</span>
+<a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;U&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Undergrad&#39;</span><span class="p">::</span><span class="n">person_code_enum</span>
+<a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;P&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Parent&#39;</span><span class="p">::</span><span class="n">person_code_enum</span>
+<a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;F&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Friend&#39;</span><span class="p">::</span><span class="n">person_code_enum</span>
+<a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;X&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Alumni/Parent&#39;</span><span class="p">::</span><span class="n">person_code_enum</span>
+<a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Alumni&#39;</span><span class="p">::</span><span class="n">person_code_enum</span>
+<a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+<a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>
+<a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a><span class="c1">-- Marital status mapping</span>
+<a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">map_marital_status</span><span class="p">(</span><span class="n">mysql_status</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">marital_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a><span class="k">BEGIN</span>
+<a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">mysql_status</span>
+<a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;S&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Single&#39;</span><span class="p">::</span><span class="n">marital_status_enum</span>
+<a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;M&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Married&#39;</span><span class="p">::</span><span class="n">marital_status_enum</span>
+<a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;W&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Widowed&#39;</span><span class="p">::</span><span class="n">marital_status_enum</span>
+<a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;D&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Divorced&#39;</span><span class="p">::</span><span class="n">marital_status_enum</span>
+<a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;?&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Unknown&#39;</span><span class="p">::</span><span class="n">marital_status_enum</span>
+<a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Unknown&#39;</span><span class="p">::</span><span class="n">marital_status_enum</span>
+<a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+<a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a>
+<a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a><span class="c1">-- Phone type mapping</span>
+<a id="__codelineno-19-43" name="__codelineno-19-43" href="#__codelineno-19-43"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">map_phone_type</span><span class="p">(</span><span class="n">mysql_type</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">phone_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-19-44" name="__codelineno-19-44" href="#__codelineno-19-44"></a><span class="k">BEGIN</span>
+<a id="__codelineno-19-45" name="__codelineno-19-45" href="#__codelineno-19-45"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">mysql_type</span>
+<a id="__codelineno-19-46" name="__codelineno-19-46" href="#__codelineno-19-46"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Cell&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Mobile&#39;</span><span class="p">::</span><span class="n">phone_type_enum</span>
+<a id="__codelineno-19-47" name="__codelineno-19-47" href="#__codelineno-19-47"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Home&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Home&#39;</span><span class="p">::</span><span class="n">phone_type_enum</span>
+<a id="__codelineno-19-48" name="__codelineno-19-48" href="#__codelineno-19-48"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Work&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Work&#39;</span><span class="p">::</span><span class="n">phone_type_enum</span>
+<a id="__codelineno-19-49" name="__codelineno-19-49" href="#__codelineno-19-49"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Fax&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Fax&#39;</span><span class="p">::</span><span class="n">phone_type_enum</span>
+<a id="__codelineno-19-50" name="__codelineno-19-50" href="#__codelineno-19-50"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="p">::</span><span class="n">phone_type_enum</span>
+<a id="__codelineno-19-51" name="__codelineno-19-51" href="#__codelineno-19-51"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="p">::</span><span class="n">phone_type_enum</span>
+<a id="__codelineno-19-52" name="__codelineno-19-52" href="#__codelineno-19-52"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-53" name="__codelineno-19-53" href="#__codelineno-19-53"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-54" name="__codelineno-19-54" href="#__codelineno-19-54"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+<a id="__codelineno-19-55" name="__codelineno-19-55" href="#__codelineno-19-55"></a>
+<a id="__codelineno-19-56" name="__codelineno-19-56" href="#__codelineno-19-56"></a><span class="c1">-- Address type mapping</span>
+<a id="__codelineno-19-57" name="__codelineno-19-57" href="#__codelineno-19-57"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">map_address_type</span><span class="p">(</span><span class="n">mysql_type</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">address_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-19-58" name="__codelineno-19-58" href="#__codelineno-19-58"></a><span class="k">BEGIN</span>
+<a id="__codelineno-19-59" name="__codelineno-19-59" href="#__codelineno-19-59"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">mysql_type</span>
+<a id="__codelineno-19-60" name="__codelineno-19-60" href="#__codelineno-19-60"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Home&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Home&#39;</span><span class="p">::</span><span class="n">address_type_enum</span>
+<a id="__codelineno-19-61" name="__codelineno-19-61" href="#__codelineno-19-61"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Business&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Business&#39;</span><span class="p">::</span><span class="n">address_type_enum</span>
+<a id="__codelineno-19-62" name="__codelineno-19-62" href="#__codelineno-19-62"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Summer Home&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Summer Home&#39;</span><span class="p">::</span><span class="n">address_type_enum</span>
+<a id="__codelineno-19-63" name="__codelineno-19-63" href="#__codelineno-19-63"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Winter Home&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Winter Home&#39;</span><span class="p">::</span><span class="n">address_type_enum</span>
+<a id="__codelineno-19-64" name="__codelineno-19-64" href="#__codelineno-19-64"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="p">::</span><span class="n">address_type_enum</span>
+<a id="__codelineno-19-65" name="__codelineno-19-65" href="#__codelineno-19-65"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="p">::</span><span class="n">address_type_enum</span>
+<a id="__codelineno-19-66" name="__codelineno-19-66" href="#__codelineno-19-66"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-67" name="__codelineno-19-67" href="#__codelineno-19-67"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-68" name="__codelineno-19-68" href="#__codelineno-19-68"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+<a id="__codelineno-19-69" name="__codelineno-19-69" href="#__codelineno-19-69"></a>
+<a id="__codelineno-19-70" name="__codelineno-19-70" href="#__codelineno-19-70"></a><span class="c1">-- Contact frequency mapping</span>
+<a id="__codelineno-19-71" name="__codelineno-19-71" href="#__codelineno-19-71"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">map_contact_frequency</span><span class="p">(</span><span class="n">mysql_freq</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="n">contact_frequency_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="err">$$</span>
+<a id="__codelineno-19-72" name="__codelineno-19-72" href="#__codelineno-19-72"></a><span class="k">BEGIN</span>
+<a id="__codelineno-19-73" name="__codelineno-19-73" href="#__codelineno-19-73"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">mysql_freq</span>
+<a id="__codelineno-19-74" name="__codelineno-19-74" href="#__codelineno-19-74"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Daily&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Daily&#39;</span><span class="p">::</span><span class="n">contact_frequency_enum</span>
+<a id="__codelineno-19-75" name="__codelineno-19-75" href="#__codelineno-19-75"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Weekly&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Weekly&#39;</span><span class="p">::</span><span class="n">contact_frequency_enum</span>
+<a id="__codelineno-19-76" name="__codelineno-19-76" href="#__codelineno-19-76"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Monthly&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Monthly&#39;</span><span class="p">::</span><span class="n">contact_frequency_enum</span>
+<a id="__codelineno-19-77" name="__codelineno-19-77" href="#__codelineno-19-77"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="s1">&#39;Annually&#39;</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">&#39;Annually&#39;</span><span class="p">::</span><span class="n">contact_frequency_enum</span>
+<a id="__codelineno-19-78" name="__codelineno-19-78" href="#__codelineno-19-78"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Monthly&#39;</span><span class="p">::</span><span class="n">contact_frequency_enum</span>
+<a id="__codelineno-19-79" name="__codelineno-19-79" href="#__codelineno-19-79"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-80" name="__codelineno-19-80" href="#__codelineno-19-80"></a><span class="k">END</span><span class="p">;</span>
+<a id="__codelineno-19-81" name="__codelineno-19-81" href="#__codelineno-19-81"></a><span class="err">$$</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="n">plpgsql</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="migration-usage-examples">Migration Usage Examples</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1">-- Example usage during data migration</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">person</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="k">SET</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_person_status</span><span class="p">(</span><span class="n">mysql_mstatus</span><span class="p">),</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_person_code</span><span class="p">(</span><span class="n">mysql_mcode</span><span class="p">);</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">family</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="k">SET</span><span class="w"> </span><span class="n">marital_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_marital_status</span><span class="p">(</span><span class="n">mysql_mar_status</span><span class="p">);</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">phone_number</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="k">SET</span><span class="w"> </span><span class="n">phone_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_phone_type</span><span class="p">(</span><span class="n">mysql_ptype</span><span class="p">);</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">address</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="k">SET</span><span class="w"> </span><span class="n">address_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_address_type</span><span class="p">(</span><span class="n">mysql_atype</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="validation-queries-for-migration">Validation Queries for Migration</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1">-- Check for unmapped values before migration</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">SELECT</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="s1">&#39;person_status&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">field_name</span><span class="p">,</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="n">mysql_mstatus</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mysql_value</span><span class="p">,</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">mysql_general_frat_info_temp</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">mysql_mstatus</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;I&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;L&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mysql_mstatus</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="k">SELECT</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">    </span><span class="s1">&#39;person_code&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">field_name</span><span class="p">,</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="w">    </span><span class="n">mysql_mcode</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mysql_value</span><span class="p">,</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="k">FROM</span><span class="w"> </span><span class="n">mysql_general_frat_info_temp</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">mysql_mcode</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;U&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;P&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;F&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;X&#39;</span><span class="p">)</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mysql_mcode</span>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a><span class="k">SELECT</span>
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a><span class="w">    </span><span class="s1">&#39;marital_status&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">field_name</span><span class="p">,</span>
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="w">    </span><span class="n">mysql_mar_status</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mysql_value</span><span class="p">,</span>
+<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span>
+<a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a><span class="k">FROM</span><span class="w"> </span><span class="n">mysql_family_temp</span>
+<a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">mysql_mar_status</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;S&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;M&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;W&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;D&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;?&#39;</span><span class="p">)</span>
+<a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mysql_mar_status</span>
+<a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a>
+<a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a>
+<a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a><span class="k">SELECT</span>
+<a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a><span class="w">    </span><span class="s1">&#39;phone_type&#39;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">field_name</span><span class="p">,</span>
+<a id="__codelineno-21-34" name="__codelineno-21-34" href="#__codelineno-21-34"></a><span class="w">    </span><span class="n">mysql_ptype</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mysql_value</span><span class="p">,</span>
+<a id="__codelineno-21-35" name="__codelineno-21-35" href="#__codelineno-21-35"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="k">count</span>
+<a id="__codelineno-21-36" name="__codelineno-21-36" href="#__codelineno-21-36"></a><span class="k">FROM</span><span class="w"> </span><span class="n">mysql_phone_temp</span>
+<a id="__codelineno-21-37" name="__codelineno-21-37" href="#__codelineno-21-37"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">mysql_ptype</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Home&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Work&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Cell&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Fax&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Other&#39;</span><span class="p">)</span>
+<a id="__codelineno-21-38" name="__codelineno-21-38" href="#__codelineno-21-38"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">mysql_ptype</span>
+<a id="__codelineno-21-39" name="__codelineno-21-39" href="#__codelineno-21-39"></a>
+<a id="__codelineno-21-40" name="__codelineno-21-40" href="#__codelineno-21-40"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">field_name</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="w"> </span><span class="k">DESC</span><span class="p">;</span>
+</code></pre></div>
+<p>This comprehensive mapping system ensures accurate data migration from MySQL to PostgreSQL while maintaining data integrity and consistency.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://hub.docker.com/" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.share", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
