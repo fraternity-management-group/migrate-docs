@@ -14,7 +14,7 @@
         <link rel="prev" href="../family/">
       
       
-        <link rel="next" href="../../installation/">
+        <link rel="next" href="../../security/row-level-security/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -274,11 +274,31 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../organization/" class="md-tabs__link">
+        <a href="../chapter/" class="md-tabs__link">
           
   
   
   Table Details
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../security/row-level-security/" class="md-tabs__link">
+          
+  
+  
+  Security
 
         </a>
       </li>
@@ -579,12 +599,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../organization/" class="md-nav__link">
+      <a href="../chapter/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Organization
+    Chapter
     
   </span>
   
@@ -631,29 +651,6 @@
   
   <span class="md-ellipsis">
     Address
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../contact.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Contact
     
   </span>
   
@@ -1386,7 +1383,7 @@
   
   
   <span class="md-ellipsis">
-    Installation & Usage
+    Security
     
   </span>
   
@@ -1396,6 +1393,81 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/row-level-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Row Level Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation & Usage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Installation & Usage
           </label>
@@ -1522,10 +1594,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1538,8 +1610,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Reference
           </label>
@@ -2364,9 +2436,9 @@
 </tr>
 <tr>
 <td><code>group_id</code></td>
-<td><code>organization_id</code></td>
+<td><code>chapter_id</code></td>
 <td>INT → UUID</td>
-<td>Foreign key to organization table</td>
+<td>Foreign key to chapter table</td>
 </tr>
 <tr>
 <td><code>feasibility_study_contract_start_date</code></td>
@@ -2488,7 +2560,7 @@
 - Comprehensive project milestone tracking
 - Web and print material management
 - Research completion tracking
-- Organization-level campaign management</p>
+- Chapter-level campaign management</p>
 <h2 id="volunteer-management">Volunteer Management</h2>
 <h3 id="volunteer-table">Volunteer Table</h3>
 <p><strong>Purpose</strong>: Tracks campaign-specific volunteer activities and training</p>
@@ -2965,7 +3037,7 @@
 <h3 id="campaign-milestone-tracking">Campaign Milestone Tracking</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Track feasibility campaign milestones and completion status</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">SELECT</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">o</span><span class="p">.</span><span class="n">organization_name</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">o</span><span class="p">.</span><span class="n">chapter_name</span><span class="p">,</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">fci</span><span class="p">.</span><span class="n">feasibility_study_contract_start_date</span><span class="p">,</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">fci</span><span class="p">.</span><span class="n">feasibility_study_contract_sent</span><span class="p">,</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">fci</span><span class="p">.</span><span class="n">campaign_contract_start_date</span><span class="p">,</span>
@@ -2984,7 +3056,7 @@
 <a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">&#39;Not Started&#39;</span>
 <a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">campaign_status</span>
 <a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="k">FROM</span><span class="w"> </span><span class="n">feasibility_campaign_info</span><span class="w"> </span><span class="n">fci</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">organization</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">fci</span><span class="p">.</span><span class="n">organization_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="k">JOIN</span><span class="w"> </span><span class="n">chapter</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">fci</span><span class="p">.</span><span class="n">chapter_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span>
 <a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">fci</span><span class="p">.</span><span class="n">campaign_contract_start_date</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="n">NULLS</span><span class="w"> </span><span class="k">LAST</span><span class="p">;</span>
 </code></pre></div>
 <h2 id="migration-logic-and-data-transformation">Migration Logic and Data Transformation</h2>
@@ -3099,8 +3171,8 @@
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="n">ds_rating</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">ds_rating</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="n">ds_rating</span><span class="w"> </span><span class="k">END</span><span class="p">;</span>
 </code></pre></div>
 <h4 id="campaign-context-migration">Campaign Context Migration</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">-- Link prospects to campaigns via organization relationships</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">-- MySQL stores campaign_id directly, PostgreSQL infers from organization context</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">-- Link prospects to campaigns via chapter relationships</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">-- MySQL stores campaign_id directly, PostgreSQL infers from chapter context</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">WITH</span><span class="w"> </span><span class="n">campaign_mapping</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="p">(</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">SELECT</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="n">p</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">prospect_id</span><span class="p">,</span>
@@ -3108,8 +3180,8 @@
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">        </span><span class="n">o</span><span class="p">.</span><span class="n">current_campaign_id</span>
 <a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">prospect</span><span class="w"> </span><span class="n">p</span>
 <a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="n">pe</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">person_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pe</span><span class="p">.</span><span class="n">id</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">person_organization</span><span class="w"> </span><span class="n">po</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">pe</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">po</span><span class="p">.</span><span class="n">person_id</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">organization</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">po</span><span class="p">.</span><span class="n">organization_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">person_chapter</span><span class="w"> </span><span class="n">po</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">pe</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">po</span><span class="p">.</span><span class="n">person_id</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="k">JOIN</span><span class="w"> </span><span class="n">chapter</span><span class="w"> </span><span class="n">o</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">po</span><span class="p">.</span><span class="n">chapter_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">id</span>
 <a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">current_campaign_id</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
 <a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">)</span>
 <a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="k">UPDATE</span><span class="w"> </span><span class="n">prospect</span><span class="w"> </span><span class="n">p</span>
@@ -3531,7 +3603,7 @@ ERROR: duplicate key value violates unique constraint "hall_of_fame_pkey"
 <a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="k">ON</span><span class="w"> </span><span class="n">leadership</span><span class="p">(</span><span class="n">person_id</span><span class="p">,</span><span class="w"> </span><span class="n">position_type</span><span class="p">,</span><span class="w"> </span><span class="n">start_year</span><span class="p">,</span><span class="w"> </span><span class="n">end_year</span><span class="p">);</span>
 </code></pre></div>
 <h4 id="partitioning-strategy-for-large-datasets">Partitioning Strategy for Large Datasets</h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1">-- Partition prospect table by campaign for large organizations</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1">-- Partition prospect table by campaign for large chapters</span>
 <a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">prospect_partitioned</span><span class="w"> </span><span class="p">(</span>
 <a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">    </span><span class="k">LIKE</span><span class="w"> </span><span class="n">prospect</span><span class="w"> </span><span class="k">INCLUDING</span><span class="w"> </span><span class="k">ALL</span>
 <a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="p">)</span><span class="w"> </span><span class="n">PARTITION</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">HASH</span><span class="w"> </span><span class="p">(</span><span class="n">campaign_context</span><span class="p">);</span>

@@ -14,7 +14,7 @@
         <link rel="prev" href="../data-types/">
       
       
-        <link rel="next" href="../../tables/organization/">
+        <link rel="next" href="../../tables/chapter/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -274,11 +274,31 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tables/organization/" class="md-tabs__link">
+        <a href="../../tables/chapter/" class="md-tabs__link">
           
   
   
   Table Details
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../security/row-level-security/" class="md-tabs__link">
+          
+  
+  
+  Security
 
         </a>
       </li>
@@ -605,13 +625,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#organization-and-date-enums" class="md-nav__link">
+  <a href="#chapter-and-date-enums" class="md-nav__link">
     <span class="md-ellipsis">
-      Organization and Date Enums
+      Chapter and Date Enums
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Organization and Date Enums">
+    <nav class="md-nav" aria-label="Chapter and Date Enums">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -972,12 +992,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tables/organization/" class="md-nav__link">
+      <a href="../../tables/chapter/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Organization
+    Chapter
     
   </span>
   
@@ -1024,29 +1044,6 @@
   
   <span class="md-ellipsis">
     Address
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tables/contact.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Contact
     
   </span>
   
@@ -1278,7 +1275,7 @@
   
   
   <span class="md-ellipsis">
-    Installation & Usage
+    Security
     
   </span>
   
@@ -1288,6 +1285,81 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/row-level-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Row Level Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation & Usage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Installation & Usage
           </label>
@@ -1414,10 +1486,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1430,8 +1502,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Reference
           </label>
@@ -1568,13 +1640,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#organization-and-date-enums" class="md-nav__link">
+  <a href="#chapter-and-date-enums" class="md-nav__link">
     <span class="md-ellipsis">
-      Organization and Date Enums
+      Chapter and Date Enums
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Organization and Date Enums">
+    <nav class="md-nav" aria-label="Chapter and Date Enums">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1892,7 +1964,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">person_status_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Active&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;In-active&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Lost&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Deceased&#39;</span><span class="p">);</span>
 </code></pre></div></p>
 <p><strong>Values:</strong>
-- <code>Active</code> - Person is currently active in the organization
+- <code>Active</code> - Person is currently active in the chapter
 - <code>In-active</code> - Person is temporarily inactive
 - <code>Lost</code> - Lost contact with the person
 - <code>Deceased</code> - Person is deceased</p>
@@ -1904,14 +1976,14 @@
 | 'L' | 'Lost' | Lost contact |
 | 'D' | 'Deceased' | Deceased member |</p>
 <h3 id="person-code-enum">Person Code Enum</h3>
-<p>Categorizes the person's relationship to the organization.
+<p>Categorizes the person's relationship to the chapter.
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">person_code_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Alumni&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Undergrad&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Parent&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Friend&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Alumni/Parent&#39;</span><span class="p">);</span>
 </code></pre></div></p>
 <p><strong>Values:</strong>
 - <code>Alumni</code> - Graduate/former member
 - <code>Undergrad</code> - Current undergraduate member
 - <code>Parent</code> - Parent of a member
-- <code>Friend</code> - Friend of the organization
+- <code>Friend</code> - Friend of the chapter
 - <code>Alumni/Parent</code> - Person who is both alumni and parent</p>
 <p><strong>MySQL to PostgreSQL Mapping:</strong>
 | MySQL Value | PostgreSQL Enum | Description |
@@ -1919,7 +1991,7 @@
 | 'A' | 'Alumni' | Alumni/graduate member |
 | 'U' | 'Undergrad' | Undergraduate member |
 | 'P' | 'Parent' | Parent of member |
-| 'F' | 'Friend' | Friend of organization |
+| 'F' | 'Friend' | Friend of chapter |
 | 'X' | 'Alumni/Parent' | Alumni who is also a parent |</p>
 <h3 id="marital-status-enum">Marital Status Enum</h3>
 <p>Tracks marital status of individuals.
@@ -1939,9 +2011,9 @@
 | 'W' | 'Widowed' | Widowed |
 | 'D' | 'Divorced' | Divorced |
 | '?' | 'Unknown' | Unknown marital status |</p>
-<h2 id="organization-and-date-enums">Organization and Date Enums</h2>
+<h2 id="chapter-and-date-enums">Chapter and Date Enums</h2>
 <h3 id="year-type-enum">Year Type Enum</h3>
-<p>Defines what type of year is being referenced for the organization.
+<p>Defines what type of year is being referenced for the chapter.
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">year_type_enum</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">ENUM</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Initiation&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Graduation&#39;</span><span class="p">);</span>
 </code></pre></div></p>
 <p><strong>Values:</strong>

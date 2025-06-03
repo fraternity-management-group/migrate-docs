@@ -274,11 +274,31 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tables/organization/" class="md-tabs__link">
+        <a href="../../tables/chapter/" class="md-tabs__link">
           
   
   
   Table Details
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../security/row-level-security/" class="md-tabs__link">
+          
+  
+  
+  Security
 
         </a>
       </li>
@@ -957,12 +977,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tables/organization/" class="md-nav__link">
+      <a href="../../tables/chapter/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Organization
+    Chapter
     
   </span>
   
@@ -1009,29 +1029,6 @@
   
   <span class="md-ellipsis">
     Address
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tables/contact.md" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Contact
     
   </span>
   
@@ -1263,7 +1260,7 @@
   
   
   <span class="md-ellipsis">
-    Installation & Usage
+    Security
     
   </span>
   
@@ -1273,6 +1270,81 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/row-level-security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Row Level Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Installation & Usage
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Installation & Usage
           </label>
@@ -1399,10 +1471,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1415,8 +1487,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Reference
           </label>
@@ -1869,9 +1941,9 @@
 <tbody>
 <tr>
 <td><code>Donor_Group</code> (main_group=1)</td>
-<td><code>organization</code></td>
+<td><code>chapter</code></td>
 <td>Direct</td>
-<td>Organizations only</td>
+<td>Chapters only</td>
 </tr>
 <tr>
 <td><code>Donor_Group</code> (main_group=0)</td>
@@ -1957,7 +2029,7 @@
 <td><code>Event</code></td>
 <td><code>event</code></td>
 <td>Enhanced</td>
-<td>With organization mapping</td>
+<td>With chapter mapping</td>
 </tr>
 <tr>
 <td><code>Participates</code></td>
@@ -2118,7 +2190,7 @@
 - Enhanced enum types and value validation</p>
 <h3 id="extracted-migration">Extracted Migration</h3>
 <p>Data extracted from one table into multiple normalized tables:
-- Improves data organization and reduces redundancy
+- Improves data chapter and reduces redundancy
 - Enables better querying and reporting
 - Maintains referential integrity through foreign keys</p>
 <h3 id="combined-migration">Combined Migration</h3>
@@ -2219,8 +2291,8 @@
 <h2 id="special-handling-cases">Special Handling Cases</h2>
 <h3 id="donor_group-split">Donor_Group Split</h3>
 <p>The <code>Donor_Group</code> table is split based on the <code>main_group</code> field:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Organizations (main_group = 1)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">organization</span><span class="w"> </span><span class="p">(...)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">-- Chapters (main_group = 1)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">chapter</span><span class="w"> </span><span class="p">(...)</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Donor_Group</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">main_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">-- Chapter Groups (main_group = 0)</span>
@@ -2245,7 +2317,7 @@
 <h2 id="migration-order-dependencies">Migration Order Dependencies</h2>
 <p>The migration order is critical due to foreign key dependencies:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>graph TD
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    A[Organizations] --&gt; B[Persons]
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    A[Chapters] --&gt; B[Persons]
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    B --&gt; C[Addresses]
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    B --&gt; D[Social Media]
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    B --&gt; E[Contact Info]
@@ -2262,7 +2334,7 @@
 </code></pre></div>
 <h3 id="dependency-rules">Dependency Rules</h3>
 <ol>
-<li><strong>Organizations before Persons</strong>: Person records may reference organizations</li>
+<li><strong>Chapters before Persons</strong>: Person records may reference chapters</li>
 <li><strong>Persons before Everything Else</strong>: Most tables have foreign keys to person</li>
 <li><strong>Events before Participates</strong>: Participation requires existing events</li>
 <li><strong>Finance before Transactions</strong>: Transactions reference finance records</li>
@@ -2311,7 +2383,7 @@
 <a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
 </code></pre></div>
 <hr />
-<p><em>This mapping reference ensures that all data relationships are properly maintained during the migration from MySQL to PostgreSQL while taking advantage of modern database features and improved data organization.</em></p>
+<p><em>This mapping reference ensures that all data relationships are properly maintained during the migration from MySQL to PostgreSQL while taking advantage of modern database features and improved data chapter.</em></p>
 
 
 
